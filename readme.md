@@ -120,12 +120,12 @@ Install using `pip install -r requirements.txt`
 ## 📫 Author
 
 **Sujal Kalra**  
-Python Developer | [https://www.linkedin.com/in/sujal-kalra-660190252/](https://www.linkedin.com/in/sujal-kalra-660190252/)
+Python Developer | [SUJAL](https://www.linkedin.com/in/sujal-kalra-660190252/)
 
 ---
 
 ## 🔐 Disclaimer
 
-This project is for learning purposes only. Never use real funds without proper testing and understanding of the risks.
+This project is just for my learning purposes only. Never use real funds without proper testing and understanding of the risks.
 
 ---
