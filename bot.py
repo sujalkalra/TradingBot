@@ -1,4 +1,4 @@
-### bot.py
+### bot.py 
 
 """
 Simplified Binance Futures Testnet Bot
@@ -169,3 +169,76 @@ class BasicBot:
             logging.error(f"Cancel ERR: {e.message}")
             print(f"❌ Cancel failed for {order_id}:", e.message)
             return {"error": e.message}
+
+# ── CLI ─────────────────────────────────────────────────────────────────────────
+def cli():
+    bot = BasicBot(API_KEY, API_SECRET)
+
+    MENU = """
+==== Binance Futures Testnet Bot ====
+1  Market order
+2  Limit order
+3  Stop-Limit order
+4  View open orders
+5  Cancel an order
+6  Exit
+7  Simulate OCO order
+Choose (1-7): """
+
+    while True:
+        choice = input(MENU).strip()
+
+        if choice == "1":
+            s = input("Symbol (e.g. BTCUSDT): ").upper()
+            sd = input("Side BUY/SELL: ").upper()
+            q  = float(input("Quantity: "))
+            bot.market(s, sd, q)
+
+        elif choice == "2":
+            s = input("Symbol: ").upper()
+            sd = input("Side BUY/SELL: ").upper()
+            q  = float(input("Quantity: "))
+            p  = float(input("Limit price: "))
+            bot.limit(s, sd, q, p)
+
+        elif choice == "3":
+            s  = input("Symbol: ").upper()
+            sd = input("Side BUY/SELL: ").upper()
+            q  = float(input("Quantity: "))
+            sp = float(input("Stop price: "))
+            lp = float(input("Limit price: "))
+            bot.stop_limit(s, sd, q, sp, lp)
+
+        elif choice == "4":
+            s = input("Symbol: ").upper()
+            orders = bot.open_orders(s)
+            if isinstance(orders, list):
+                for o in orders:
+                    print(f"ID {o['orderId']} | {o['type']} {o['side']} Qty={o['origQty']} Price={o['price']} Status={o['status']}")
+
+        elif choice == "5":
+            s  = input("Symbol: ").upper()
+            oid = int(input("Order ID to cancel: "))
+            bot.cancel(s, oid)
+
+        elif choice == "6":
+            print("👋 Exiting bot.")
+            break
+
+        elif choice == "7":
+            s = input("Symbol: ").upper()
+            sd = input("Side BUY/SELL: ").upper()
+            q = float(input("Quantity: "))
+            tp = float(input("Take-profit price: "))
+            sp = float(input("Stop price: "))
+            sl = float(input("Stop-limit price: "))
+            bot.oco_simulated(s, sd, q, tp, sp, sl)
+
+        else:
+            print("❌ Invalid choice. Try 1-7.")
+
+if __name__ == "__main__":
+    try:
+        cli()
+    except Exception as e:
+        print("❌ Startup failed:", str(e))
